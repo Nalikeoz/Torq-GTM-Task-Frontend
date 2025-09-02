@@ -14,8 +14,15 @@ function App() {
   const fetchLocationFromIP = async () => {
     const response = await fetch(`${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/v1/find-country?ip=${inputValue}`)
     const data = await response.json()
-    const parsedLocation = `${data.country}, ${data.city}`
-    setLocation(parsedLocation)
+
+    if (!response.ok) {
+      const errorMessage = data.error
+      setLocation(errorMessage)
+    }
+    else {
+      const parsedLocation = `Location: ${data.country}, ${data.city}`
+      setLocation(parsedLocation)
+    }
   }
 
   return (
@@ -41,7 +48,7 @@ function App() {
         </div>
       </main>
       <div className="location-display">
-          <p>Location: {location}</p>
+          <p>{location}</p>
         </div>
     </div>
   )
