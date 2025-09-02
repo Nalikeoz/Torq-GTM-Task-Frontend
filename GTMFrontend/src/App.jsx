@@ -1,18 +1,21 @@
 import { useState } from 'react'
-import { CustomInput, CustomButton, InputDisplay } from './components'
+import { CustomInput, CustomButton } from './components'
 import './App.css'
 
 // Main App Component
 function App() {
   const [inputValue, setInputValue] = useState('')
+  const [location, setLocation] = useState('')
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value)
   }
 
-  const handleSubmit = () => {
-    console.log('Button clicked! Input value:', inputValue)
-    // Add your button functionality here
+  const fetchLocationFromIP = async () => {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/v1/find-country?ip=${inputValue}`)
+    const data = await response.json()
+    const parsedLocation = `${data.country}, ${data.city}`
+    setLocation(parsedLocation)
   }
 
   return (
@@ -30,15 +33,16 @@ function App() {
             className="text-input"
           />
           <CustomButton
-            onClick={handleSubmit}
+            onClick={fetchLocationFromIP}
             className="submit-button"
           >
             Submit
           </CustomButton>
         </div>
-        
-        <InputDisplay value={inputValue} />
       </main>
+      <div className="location-display">
+          <p>Location: {location}</p>
+        </div>
     </div>
   )
 }
