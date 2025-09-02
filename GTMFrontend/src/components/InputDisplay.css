@@ -1,0 +1,14 @@
+/* Input Display Styles */
+.input-display {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid #e9ecef;
+}
+
+.input-display p {
+  margin: 0;
+  color: #495057;
+}
